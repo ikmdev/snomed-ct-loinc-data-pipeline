@@ -20,39 +20,61 @@
         <module>snomed-ct-loinc-transformation-maven-plugin</module>
     </modules>
 
+    <properties>
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
+        <java.version>23</java.version>
+        <maven-plugin-plugin.version>3.13.0</maven-plugin-plugin.version>
+        <maven-plugin-annotations.version>3.15.0</maven-plugin-annotations.version>
+        <maven-plugin-api.version>3.9.9</maven-plugin-api.version>
+        <tinkar-core.version>1.121.0</tinkar-core.version>
+        <tinkar-composer.version>1.8.0</tinkar-composer.version>
+    </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
             <scope>provided</scope>
+            <version>${maven-plugin-api.version}</version>
         </dependency>
+        
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-annotations</artifactId>
+            <version>${maven-plugin-annotations.version}</version>
         </dependency>
+        
         <dependency>
             <groupId>dev.ikm.tinkar</groupId>
             <artifactId>composer</artifactId>
+             <version>${tinkar-composer.version}</version>
         </dependency>
         <dependency>
             <groupId>dev.ikm.tinkar</groupId>
             <artifactId>data-spinedarray-provider</artifactId>
+            <version>${tinkar-core.version}</version>
         </dependency>
         <dependency>
             <groupId>dev.ikm.tinkar</groupId>
             <artifactId>search-provider</artifactId>
+            <version>${tinkar-core.version}</version>
         </dependency>
         <dependency>
             <groupId>dev.ikm.tinkar</groupId>
             <artifactId>entity-provider</artifactId>
+            <version>${tinkar-core.version}</version>
         </dependency>
         <dependency>
             <groupId>dev.ikm.tinkar</groupId>
             <artifactId>executor-provider</artifactId>
+            <version>${tinkar-core.version}</version>
         </dependency>
         <dependency>
             <groupId>dev.ikm.tinkar.ext.owl</groupId>
             <artifactId>owl-extension</artifactId>
+            <version>${tinkar-core.version}</version>
         </dependency>
     </dependencies>
 </project>
