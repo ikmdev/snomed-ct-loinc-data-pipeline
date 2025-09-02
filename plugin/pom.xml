@@ -10,15 +10,11 @@
 
     <groupId>dev.ikm.maven</groupId>
     <artifactId>plugin</artifactId>
-    <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <name>plugin</name>
     <url>http://maven.apache.org</url>
-    <modules>
-        <module>snomed-ct-loinc-starterdata-maven-plugin</module>
-        <module>snomed-ct-loinc-transformation-maven-plugin</module>
-    </modules>
 
     <properties>
         <maven.compiler.source>23</maven.compiler.source>
@@ -31,50 +27,114 @@
         <tinkar-composer.version>1.8.0</tinkar-composer.version>
     </properties>
 
+    <modules>
+        <module>snomedct-starterdata-maven-plugin</module>
+        <module>snomedct-transformation-maven-plugin</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>${maven-plugin-plugin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-plugin-api</artifactId>
+                <version>${maven-plugin-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.plugin-tools</groupId>
+                <artifactId>maven-plugin-annotations</artifactId>
+                <version>${maven-plugin-annotations.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.ikm.tinkar</groupId>
+                <artifactId>entity-provider</artifactId>
+                <version>${tinkar-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.ikm.tinkar</groupId>
+                <artifactId>composer</artifactId>
+                <version>${tinkar-composer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.ikm.tinkar</groupId>
+                <artifactId>data-spinedarray-provider</artifactId>
+                <version>${tinkar-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.ikm.tinkar</groupId>
+                <artifactId>executor-provider</artifactId>
+                <version>${tinkar-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.ikm.tinkar</groupId>
+                <artifactId>search-provider</artifactId>
+                <version>${tinkar-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.ikm.tinkar.ext.owl</groupId>
+                <artifactId>owl-extension</artifactId>
+                <version>${tinkar-core.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
             <scope>provided</scope>
-            <version>${maven-plugin-api.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-annotations</artifactId>
-            <version>${maven-plugin-annotations.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>dev.ikm.tinkar</groupId>
             <artifactId>composer</artifactId>
-             <version>${tinkar-composer.version}</version>
         </dependency>
         <dependency>
             <groupId>dev.ikm.tinkar</groupId>
             <artifactId>data-spinedarray-provider</artifactId>
-            <version>${tinkar-core.version}</version>
         </dependency>
         <dependency>
             <groupId>dev.ikm.tinkar</groupId>
             <artifactId>search-provider</artifactId>
-            <version>${tinkar-core.version}</version>
         </dependency>
         <dependency>
             <groupId>dev.ikm.tinkar</groupId>
             <artifactId>entity-provider</artifactId>
-            <version>${tinkar-core.version}</version>
         </dependency>
         <dependency>
             <groupId>dev.ikm.tinkar</groupId>
             <artifactId>executor-provider</artifactId>
-            <version>${tinkar-core.version}</version>
         </dependency>
         <dependency>
             <groupId>dev.ikm.tinkar.ext.owl</groupId>
             <artifactId>owl-extension</artifactId>
-            <version>${tinkar-core.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>${maven-plugin-plugin.version}</version>
+                </plugin>
+                <!-- Skip Staging Plugin -->
+                <plugin>
+                    <groupId>org.sonatype.central</groupId>
+                    <artifactId>central-publishing-maven-plugin</artifactId>
+                    <configuration>
+                        <skipPublishing>false</skipPublishing>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
