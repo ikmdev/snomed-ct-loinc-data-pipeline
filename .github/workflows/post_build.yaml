@@ -3,15 +3,15 @@ name: Post Build Action
 run-name: 'Post Build Action -- ${{github.event.workflow_run.head_branch}}'
 
 on:
-  workflow_run:
+   workflow_run:
     workflows:
       - Build Workflow
     types:
       - completed
 
 permissions:
-  contents: write
-
+  contents: write 
+        
 jobs:
   post-build:
     name: Post Build Actions
@@ -25,15 +25,49 @@ jobs:
           ref: ${{github.event.workflow_run.head_branch}}
           fetch-depth: 0
 
-      - name: IKMDEV Post Build Action
-        id: ikmdev_post_build
-        uses: ikmdev/maven-post-build-action@v3.2.0
+      - name: Maven Settings File
+        uses: whelk-io/maven-settings-xml-action@v22
         with:
-          nexus_repo_password: ${{secrets.EC2_NEXUS_PASSWORD}}
-          branch_name: ${{github.event.workflow_run.head_branch}}
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          maven_central_username: ${{secrets.MC_SECRET_USERNAME}}
-          maven_central_password: ${{secrets.MC_SECRET_PASSWORD}}
-          gpg_key: ${{secrets.GPG_KEY}}
-          gpg_passphrase: ${{secrets.GPG_PASSPHRASE}}
-          sonarcloud_token: ${{ secrets.SONAR_TOKEN }}
+          servers: '[{"id": "maven-public", "username": "admin", "password": "${{secrets.EC2_NEXUS_PASSWORD}}"}, {"id": "maven-snapshots", "username": "admin", "password": "${{secrets.EC2_NEXUS_PASSWORD}}"}]'
+          mirrors: '[{"id": "maven-public", "mirrorOf": "*", "url": "https://nexus.tinkarbuild.com/repository/maven-public/"}]'
+          repositories: '
+            [
+              {
+                "id": "maven-public",
+                "name": "maven-public",
+                "url": "https://nexus.tinkarbuild.com/repository/maven-public/",
+                "releases": {
+                  "enabled": "true",
+                  "updatePolicy": "always",
+                  "checksumPolicy": "fail"
+                },
+                "snapshots": {
+                  "enabled": "true",
+                  "updatePolicy": "always",
+                  "checksumPolicy": "fail"
+                }
+              }
+            ]'
+          output_file: ../.m2/tinkar-settings.xml
+
+      - name: Build Plugins
+        uses: ikmdev/maven-clean-install-build-action@v3.5.0
+        with:
+          branch_name: ${{github.ref_name}}
+          mvn_additional_args: " -f plugin"
+
+      - name: Deploy To Nexus
+        shell: bash
+        run: |
+          ./mvnw clean deploy \
+            --batch-mode \
+            -U \
+            -e \
+            -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
+            -DskipTests \
+            -DskipITs \
+            -s '/home/runner/work/${{github.event.repository.name}}/.m2/tinkar-settings.xml'\
+            -DrepositoryId='maven-public' \
+            -DaltDeploymentRepository='maven-snapshots::https://nexus.tinkarbuild.com/repository/maven-snapshots/' \
+            -Dmaven.build.cache.enabled=false \
+            -PgenerateData
