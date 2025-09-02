@@ -28,8 +28,8 @@
     </properties>
 
     <modules>
-        <module>snomedct-starterdata-maven-plugin</module>
-        <module>snomedct-transformation-maven-plugin</module>
+        <module>snomed-ct-loinc-starterdata-maven-plugin</module>
+        <module>snomed-ct-loinc-transformation-maven-plugin</module>
     </modules>
 
     <dependencyManagement>
