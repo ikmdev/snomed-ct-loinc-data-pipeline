@@ -28,14 +28,14 @@ jobs:
       - name: Maven Settings File
         uses: whelk-io/maven-settings-xml-action@v22
         with:
-          servers: '[{"id": "maven-snapshots", "username": "admin", "password": "${{secrets.EC2_NEXUS_PASSWORD}}"}, {"id": "maven-snapshots", "username": "admin", "password": "${{secrets.EC2_NEXUS_PASSWORD}}"}]'
-          mirrors: '[{"id": "maven-snapshots", "mirrorOf": "*", "url": "https://nexus.tinkarbuild.com/repository/maven-snapshots/"}]'
+          servers: '[{"id": "maven-public", "username": "admin", "password": "${{secrets.EC2_NEXUS_PASSWORD}}"}, {"id": "maven-snapshots", "username": "admin", "password": "${{secrets.EC2_NEXUS_PASSWORD}}"}]'
+          mirrors: '[{"id": "maven-public", "mirrorOf": "*", "url": "https://nexus.tinkarbuild.com/repository/maven-public/"}]'
           repositories: '
             [
               {
-                "id": "maven-snapshots",
-                "name": "maven-snapshots",
-                "url": "https://nexus.tinkarbuild.com/repository/maven-snapshots/",
+                "id": "maven-public",
+                "name": "maven-public",
+                "url": "https://nexus.tinkarbuild.com/repository/maven-public/",
                 "releases": {
                   "enabled": "true",
                   "updatePolicy": "always",
@@ -67,7 +67,7 @@ jobs:
             -DskipTests \
             -DskipITs \
             -s '/home/runner/work/${{github.event.repository.name}}/.m2/tinkar-settings.xml'\
-            -DrepositoryId='maven-snapshots' \
+            -DrepositoryId='maven-public' \
             -DaltDeploymentRepository='maven-snapshots::https://nexus.tinkarbuild.com/repository/maven-snapshots/' \
             -Dmaven.build.cache.enabled=false \
             -PgenerateData
