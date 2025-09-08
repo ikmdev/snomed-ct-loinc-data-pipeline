@@ -157,6 +157,17 @@
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}/input-data</outputDirectory>
                                 </artifactItem>
+                             
+                               <artifactItem>
+                                    <groupId>dev.ikm.data.snomedct</groupId>
+                                    <artifactId>snomedct-international</artifactId>
+                                    <version>20250801T120000Z-20250905-SNAPSHOT</version>
+                                    <classifier>unreasoned-pb</classifier>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}/input-data</outputDirectory>
+                                </artifactItem>
+                                
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -164,7 +175,7 @@
                         <id>copy-origin-data-dependency</id>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>unpack</goal>
+                            <goal>copy</goal>
                         </goals>
                         <configuration>
                             <artifactItems>
@@ -220,6 +231,11 @@
                     <plugin>
                         <groupId>dev.ikm.maven.tinkar</groupId>
                         <artifactId>tinkar-maven-plugin</artifactId>
+                        
+                        <configuration>
+                            <isolate>false</isolate>
+                        </configuration>
+                        
                         <executions>
                             <!-- Load Input Data (generate-resources) -->
                             <execution>
@@ -300,9 +316,9 @@
                         <configuration>
                             <namespaceString>${origin.namespace}</namespaceString>
                             <datastorePath>${project.build.directory}/datastore</datastorePath>
-                            <inputDirectoryPath>${project.build.directory}/origin-data/snomedctloinc</inputDirectoryPath>
+                            <inputDirectoryPath>${project.build.directory}/origin-data/snomedctloinc/snomed-ct-loinc-origin-SnomedCT_LOINCExtension_20250321T120000Z+1.0.0-20250908.144058-1.zip</inputDirectoryPath>
                             <dataOutputPath>${project.build.directory}</dataOutputPath>
-                            <skipUnzip>true</skipUnzip>
+                            <!--<skipUnzip>true</skipUnzip>-->
                         </configuration>
                         <executions>
                             <execution>
