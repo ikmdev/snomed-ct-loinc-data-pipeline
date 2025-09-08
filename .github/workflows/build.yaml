@@ -26,7 +26,7 @@ jobs:
         uses: whelk-io/maven-settings-xml-action@v22
         with:
           servers: '[{"id": "maven-public", "username": "admin", "password": "${{secrets.EC2_NEXUS_PASSWORD}}"}]'
-          mirrors: '[{"id": "maven-public", "mirrorOf": "*", "url": "https://nexus.tinkarbuild.com/repository/maven-public/"}]'
+          mirrors: '[{"id": "maven-public", "mirrorOf": "*", "url": "https://nexus.tinkarbuild.com/repository/maven-public/"}, {"id": "maven-snapshots", "mirrorOf": "*", "url": "https://nexus.tinkarbuild.com/repository/maven-snapshots/"}]'
           repositories: '
             [
               {
@@ -43,7 +43,7 @@ jobs:
                   "updatePolicy": "always",
                   "checksumPolicy": "fail"
                 }
-              }
+              }, {"id": "maven-snapshots", "name": "maven-snapshots", "url": "https://nexus.tinkarbuild.com/repository/maven-snapshots/","releases": {"enabled": "true","updatePolicy": "always","checksumPolicy": "fail"}, "snapshots": {"enabled": "true","updatePolicy": "always", "checksumPolicy": "fail"} }
             ]'
           output_file: ../.m2/tinkar-settings.xml
 
