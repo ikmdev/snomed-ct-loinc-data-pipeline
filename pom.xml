@@ -66,8 +66,8 @@
         <tinkar-starter-data.version>20250827</tinkar-starter-data.version>
 
         <!--<source.qualifier>international</source.qualifier>-->
-        <source.version>20231015T120000Z</source.version>
-        <snomedct-loinc-origin.version>${source.version}+1.0.0-SNAPSHOT</snomedct-loinc-origin.version>
+        <source.version>20250321T120000Z</source.version>
+        <snomedct-loinc-origin.version>SnomedCT_LOINCExtension_${source.version}+1.0.0-SNAPSHOT</snomedct-loinc-origin.version>
         <data-artifact.prefix>${project.artifactId}-${project.version}</data-artifact.prefix>
         <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
         <transformation-plugin.version>1.0.0-SNAPSHOT</transformation-plugin.version>
