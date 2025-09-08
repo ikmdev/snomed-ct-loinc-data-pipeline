@@ -170,7 +170,7 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>dev.ikm.data.snomedctloinc</groupId>
-                                    <artifactId>snomedct-loinc-origin</artifactId>
+                                    <artifactId>snomed-ct-loinc-origin</artifactId>
                                     <version>${snomedct-loinc-origin.version}</version>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
