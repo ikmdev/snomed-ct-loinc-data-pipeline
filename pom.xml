@@ -254,12 +254,12 @@
                                 </configuration>
                             </execution>
                             <!-- Run owl transformer (process-classes) -->
-                            <execution>
+<!--                            <execution>
                                 <id>${project.artifactId}-owl-transform</id>
                                 <goals>
                                     <goal>run-owl-transformer</goal>
                                 </goals>
-                            </execution>
+                            </execution>-->
                             <!-- Export unreasoned data as a protocol buffers zip file (package) -->
                             <execution>
                                 <id>${project.artifactId}-unreasoned-export</id>
