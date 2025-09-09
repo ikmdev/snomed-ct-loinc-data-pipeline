@@ -20,7 +20,7 @@
 
     <properties>
         <!-- maven plugins -->
-        <maven-artifacts.version>1.35.0</maven-artifacts.version>
+        <maven-artifacts.version>1.36.0-SNAPSHOT</maven-artifacts.version>
         <maven-assembly-plugin.version>3.7.1</maven-assembly-plugin.version>
         <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
         <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
@@ -31,15 +31,15 @@
 <!--        <source.zip>${user.home}/Downloads/SnomedCT_InternationalRF2_PRODUCTION_${source.version}.zip</source.zip>-->
 <!--        <gmdn.mapping.source.zip>${user.home}/Downloads/SnomedCT_GMDNMapRelease_PRODUCTION_20250331T120000Z.zip</gmdn.mapping.source.zip>-->
 <!--        <gmdn.device.source.zip>${user.home}/Downloads/gmdnData25_7.zip</gmdn.device.source.zip>-->
-        <dataStoreLocation>${project.basedir}/../target</dataStoreLocation>
-        <dataStore>snomedct-international</dataStore>   
+        <dataStoreLocation>${project.basedir}/target</dataStoreLocation>
+        <dataStore>datastore</dataStore>   
         
         <maven.compiler.source>23</maven.compiler.source>
         <maven.compiler.target>23</maven.compiler.target>
         <java.version>23</java.version>
         <lucene.version>9.12.1</lucene.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tinkar-core.version>1.121.0</tinkar-core.version>
+        <tinkar-core.version>1.123.0-SNAPSHOT</tinkar-core.version>
         <tinkar-schema.version>1.42.0</tinkar-schema.version>
         <tinkar-transformer-api.version>1.7.0</tinkar-transformer-api.version>
         <log4j.version>3.0.0-alpha1</log4j.version>
@@ -156,21 +156,31 @@
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}/input-data</outputDirectory>
-                                </artifactItem>
-                             
+                                </artifactItem>                            
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack-snomed-data-dependencies</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>                             
                                <artifactItem>
                                     <groupId>dev.ikm.data.snomedct</groupId>
                                     <artifactId>snomedct-international</artifactId>
                                     <version>20250801T120000Z-20250905-SNAPSHOT</version>
-                                    <classifier>unreasoned-pb</classifier>
+                                    <classifier>reasoned-sa</classifier>
                                     <type>zip</type>
                                     <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/input-data</outputDirectory>
+                                    <outputDirectory>${project.build.directory}/datastore</outputDirectory>
                                 </artifactItem>
-                                
                             </artifactItems>
                         </configuration>
                     </execution>
+
                     <execution>
                         <id>copy-origin-data-dependency</id>
                         <phase>generate-sources</phase>
@@ -234,6 +244,7 @@
                         
                         <configuration>
                             <isolate>false</isolate>
+                            <dataStore>${dataStoreLocation}/${dataStore}</dataStore>
                         </configuration>
                         
                         <executions>
@@ -253,13 +264,13 @@
                                     </fileset>
                                 </configuration>
                             </execution>
-                            <!-- Run owl transformer (process-classes) -->
-<!--                            <execution>
+                           <!-- Run owl transformer (process-classes) -->
+                           <execution>
                                 <id>${project.artifactId}-owl-transform</id>
                                 <goals>
                                     <goal>run-owl-transformer</goal>
                                 </goals>
-                            </execution>-->
+                            </execution>
                             <!-- Export unreasoned data as a protocol buffers zip file (package) -->
                             <execution>
                                 <id>${project.artifactId}-unreasoned-export</id>
@@ -318,7 +329,7 @@
                             <datastorePath>${project.build.directory}/datastore</datastorePath>
                             <inputDirectoryPath>${project.build.directory}/origin-data/snomedctloinc/snomed-ct-loinc-origin-SnomedCT_LOINCExtension_20250321T120000Z+1.0.0-20250908.144058-1.zip</inputDirectoryPath>
                             <dataOutputPath>${project.build.directory}</dataOutputPath>
-                            <!--<skipUnzip>true</skipUnzip>-->
+                            <skipUnzip>true</skipUnzip>
                         </configuration>
                         <executions>
                             <execution>
